@@ -1,118 +1,118 @@
 #include <stdio.h>
-
 #include <stdlib.h>
-
 #include <time.h>
 
 int main(){
 
-    const int USER = 5000;
+    const int MAX_NUMBER_OF_PIN = 5000;
     const int PINADMIN = 9999;
-    int arrayPinCash[USER][2];
+    const int CELL_PINS = 0;
+    const int CELL_CASH = 1;
+    const int VERIFY_ACCOUNT = 1;
+    const int PUT_MONEY = 2;
+    const int WITHDRAW_MONEY = 3;
+    const int QUIT = 0;
+    const int CHECK_ALL_ACCOUNT = 1;
+    const int ZERO_ALL_ACCOUNT = 2;
+    const int NUMBER_OF_ATTEMPTS = 3;
+    int arrayPinCash[MAX_NUMBER_OF_PIN][2];
     int i = 0;
     int pin;
     int money;
     int deustvie;
     int b;
 
-
     srand(time(NULL));
-    for ( i = 0; i < USER; i++){
-        arrayPinCash[i][0] = i + 1000;
-        arrayPinCash[i][1] = rand() %10000 + 1;
-        printf("%d", arrayPinCash[i][0]);
-        printf("    %d \n", arrayPinCash[i][1]);
+    for ( i = 0; i < MAX_NUMBER_OF_PIN; i++){
+        arrayPinCash[i][CELL_PINS] = i + 1000;
+        arrayPinCash[i][CELL_CASH] = rand() %10000 + 1;
+        printf("%d", arrayPinCash[i][CELL_PINS]);
+        printf("    %d \n", arrayPinCash[i][CELL_CASH]);
     }
-        for(;;){
 
-             //Proverka na usera
-             for (b = 0; b < 3; b++){
-                printf("enter your pin: ");
-                fflush(stdin);
-                scanf("%d", &pin);
-                for (i = 0; i < USER; i++){
-                    if (pin == arrayPinCash[i][0]){
-                        break;
-                    }
-                    if (pin == PINADMIN){
-                        break;
-                    }
+    for(;;){
+        //user verification
+        for (b = 0; b < NUMBER_OF_ATTEMPTS; b++){
+            printf("enter your pin: ");
+            fflush(stdin);
+            scanf("%d", &pin);
+            for (i = 0; i < MAX_NUMBER_OF_PIN; i++){
+                if (pin == arrayPinCash[i][CELL_PINS]){
+                    break;
                 }
-                    if (pin == arrayPinCash[i][0]){
-                        break;
-                  }
-                  if (pin == PINADMIN){
-                        break;
-                  }
-        }
-
-        //Vhod v adminky
-        for (i = 0; i < USER; i++){
-            if (pin == arrayPinCash[i][0]){
-                break;
-            }
-        }
-
-            if (pin == arrayPinCash[i][0]){
-                for(;;){
-                    printf(">>>>>>>>>>Dobro pogalovat v bankomat <<<<<<<<<<<<<\n");
-                    printf("1 Proverit schet                                 |\n");
-                    printf("2 Pologit dengi                                  |\n");
-                    printf("3 Snyat dengi                                    |\n");
-                    printf("4 Quit                                           |\n");
-                    printf("             Vuberete deustvie - ");
-                    fflush(stdin);
-                    scanf("%d", &deustvie);
-
-            if (deustvie == 1){
-                printf("\n%d", arrayPinCash[i][1]);
-            }
-            if (deustvie == 2){
-                printf("\nvvedite skolko vu hotite pologit\n");
-                scanf("%d", &money);
-                arrayPinCash[i][1] = arrayPinCash[i][1] + money;
-                printf("\nstalo deneg\n");
-                printf("\n%d", arrayPinCash[i][1]);
-            }
-            if (deustvie == 3){
-                printf("\nvvedite skolko vu hotite snjt\n");
-                scanf("%d", &money);
-                arrayPinCash[i][1] = arrayPinCash[i][1] - money;
-                printf("\nstalo deneg\n");
-                printf("\n%d", arrayPinCash[i][1]);
-            }
-            if (deustvie == 4){
-                break;
-            }
-            }
-            }
-
-            if (pin == PINADMIN){
-                for(;;){
-                    printf(">>>>>>>>>>    Dobro pogalovat ADMIN  <<<<<<<<<<<<<\n");
-                    printf("1 Proverit vse scheta                            |\n");
-                    printf("2 Obnylit vse scheta                             |\n");
-                    printf("3 Quit                                           |\n");
-                    printf("             Vuberete deustvie - ");
-                    scanf("%d", &deustvie);
-
-                if (deustvie == 1){
-                    for (i = 0; i < USER; i++){
-                        printf("\n%d %d  \n", arrayPinCash[i][0], arrayPinCash[i][1]);
-                    }
-                }
-
-                if (deustvie == 2){
-                    for (i = 0; i < USER; i++){
-                    arrayPinCash[i][1] =  0;
-                    printf("\n%d %d  ", arrayPinCash[i][0], arrayPinCash[i][1]);
-                    }
-                }
-                if (deustvie == 3){
+                if (pin == PINADMIN){
                     break;
                 }
             }
+            if (pin == arrayPinCash[i][CELL_PINS]){
+                break;
+            }
+            if (pin == PINADMIN){
+                break;
             }
         }
-            getch(); return 0;
+
+        //admin login
+        if (pin == arrayPinCash[i][CELL_PINS]){
+            for(;;){
+                printf(">>>>>>>>>>  Welcome to cash machine  <<<<<<<<<<<<<\n");
+                printf("1 Verify account                                 |\n");
+                printf("2 Put money                                      |\n");
+                printf("3 Withdraw money                                 |\n");
+                printf("0 Quit                                           |\n");
+                printf("             Select an action - ");
+                fflush(stdin);
+                scanf("%d", &action);
+
+                if (action == VERIFY_ACCOUNT){
+                    printf("\n%d", arrayPinCash[i][CELL_CASH]);
+                }
+                if (action == PUT_MONEY){
+                    printf("\nenter how much money you want to put\n");
+                    scanf("%d", &money);
+                    arrayPinCash[i][CELL_CASH] = arrayPinCash[i][CELL_CASH] + money;
+                    printf("\nbecame money in the account\n");
+                    printf("\n%d", arrayPinCash[i][CELL_CASH]);
+                }
+                if (action == WITHDRAW_MONEY){
+                    printf("\nenter how much money you want to withdraw\n");
+                    scanf("%d", &money);
+                    arrayPinCash[i][CELL_CASH] = arrayPinCash[i][CELL_CASH] - money;
+                    printf("\nbecame money in the account\n");
+                    printf("\n%d", arrayPinCash[i][CELL_CASH]);
+                }
+                if (action == QUIT){
+                    break;
+                }
+            }
+        }
+
+        if (pin == PINADMIN){
+            for(;;){
+                printf(">>>>>>>>>>       Welcome ADMIN       <<<<<<<<<<<<<\n");
+                printf("1 Check all accounts                             |\n");
+                printf("2 Zero all accounts                              |\n");
+                printf("0 Quit                                           |\n");
+                printf("             Select an action - ");
+                scanf("%d", &action);
+
+                if (action == CHECK_ALL_ACCOUNT){
+                    for (i = 0; i < MAX_NUMBER_OF_PIN; i++){
+                        printf("\n%d %d  \n", arrayPinCash[i][CELL_PINS], arrayPinCash[i][CELL_CASH]);
+                    }
+                }
+
+                if (action == ZERO_ALL_ACCOUNT){
+                    for (i = 0; i < MAX_NUMBER_OF_PIN; i++){
+                        arrayPinCash[i][CELL_CASH] =  0;
+                        printf("\n%d %d  ", arrayPinCash[i][CELL_PINS], arrayPinCash[i][CELL_CASH]);
+                    }
+                }
+                if (action == QUIT){
+                    break;
+                }
+            }
+        }
+    }
+    getch();    return 0;
 }
